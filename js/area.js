@@ -31,18 +31,19 @@ var scale_y = d3.scaleLinear()
     .domain([0, d3.max(data)])
     .range([g_height,0]);
 
-var line_generator = d3.line() //3版本 d3.svg.line
-    .x(function (d, i) {
+var area_generator = d3.area() //3版本 d3.svg.line
+    .x(function (d) {
         return scale_x(i); //0,1,2...
     })
-    .y(function (d) {
+    .y0(g_height)
+    .y1(function (d) {
         return scale_y(d);
     })
     .curve(d3.curveCardinal);
 
 g
     .append('path')
-    .attr("d", line_generator(data));
+    .attr("d", area_generator(data));
 
 var x_axis = d3.axisBottom(scale_x),
     y_axis = d3.axisLeft(scale_y);
